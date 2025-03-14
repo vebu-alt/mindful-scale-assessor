@@ -2,8 +2,10 @@
 import React from 'react';
 import Layout from '@/components/Layout';
 import DashboardContent from '@/components/dashboard/Dashboard';
+import MentalHealthChatbot from '@/components/ai/MentalHealthChatbot';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
@@ -25,7 +27,18 @@ const Dashboard = () => {
   
   return (
     <Layout>
-      <DashboardContent />
+      <Tabs defaultValue="dashboard" className="w-full">
+        <TabsList className="mb-4">
+          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+          <TabsTrigger value="ai-support">AI Support</TabsTrigger>
+        </TabsList>
+        <TabsContent value="dashboard">
+          <DashboardContent />
+        </TabsContent>
+        <TabsContent value="ai-support">
+          <MentalHealthChatbot />
+        </TabsContent>
+      </Tabs>
     </Layout>
   );
 };

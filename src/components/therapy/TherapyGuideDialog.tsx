@@ -31,7 +31,7 @@ const TherapyGuideDialog: React.FC<TherapyGuideDialogProps> = ({
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] p-0" onInteractOutside={(e) => e.preventDefault()}>
+      <DialogContent className="max-w-4xl max-h-[90vh] p-0 overflow-hidden" onInteractOutside={(e) => e.preventDefault()}>
         <TherapyGuide 
           therapyType={therapyType} 
           onClose={() => setOpen(false)} 
