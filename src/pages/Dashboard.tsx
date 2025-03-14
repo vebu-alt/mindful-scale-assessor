@@ -1,10 +1,11 @@
 
 import React from 'react';
-import AuthForm from '@/components/auth/AuthForm';
+import Layout from '@/components/Layout';
+import DashboardContent from '@/components/dashboard/Dashboard';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 
-const Index = () => {
+const Dashboard = () => {
   const { user, loading } = useAuth();
   
   if (loading) {
@@ -18,11 +19,15 @@ const Index = () => {
     );
   }
   
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
+  if (!user) {
+    return <Navigate to="/" replace />;
   }
   
-  return <AuthForm />;
+  return (
+    <Layout>
+      <DashboardContent />
+    </Layout>
+  );
 };
 
-export default Index;
+export default Dashboard;

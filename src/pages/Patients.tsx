@@ -1,11 +1,15 @@
 
 import React from 'react';
-import AuthForm from '@/components/auth/AuthForm';
+import { useParams } from 'react-router-dom';
+import Layout from '@/components/Layout';
+import PatientList from '@/components/patients/PatientList';
+import PatientDetail from '@/components/patients/PatientDetail';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 
-const Index = () => {
+const Patients = () => {
   const { user, loading } = useAuth();
+  const { id } = useParams<{ id: string }>();
   
   if (loading) {
     return (
@@ -18,11 +22,15 @@ const Index = () => {
     );
   }
   
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
+  if (!user) {
+    return <Navigate to="/" replace />;
   }
   
-  return <AuthForm />;
+  return (
+    <Layout>
+      {id ? <PatientDetail /> : <PatientList />}
+    </Layout>
+  );
 };
 
-export default Index;
+export default Patients;
