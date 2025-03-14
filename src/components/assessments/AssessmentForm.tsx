@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Check, AlertTriangle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, AlertTriangle, BookOpen } from 'lucide-react';
 import { 
   assessments, 
   AssessmentType, 
@@ -10,6 +10,28 @@ import {
   interpretScore
 } from '@/utils/assessmentScoring';
 import { useToast } from '@/hooks/use-toast';
+import TherapyGuideDialog from '@/components/therapy/TherapyGuideDialog';
+import { Button } from '@/components/ui/button';
+import { TherapyType } from '@/utils/therapyGuides';
+
+// Map assessment recommendations to therapy types
+const recommendationToTherapyMap: Record<string, TherapyType> = {
+  "Cognitive Behavioral Therapy (CBT)": "cbt",
+  "Cognitive-behavioral techniques": "cbt",
+  "CBT": "cbt",
+  "Dialectical Behavior Therapy": "dbt",
+  "DBT": "dbt",
+  "Acceptance and Commitment Therapy": "act",
+  "ACT": "act",
+  "Interpersonal Therapy": "ipt",
+  "IPT": "ipt",
+  "Psychodynamic therapy": "psychodynamic",
+  "Exposure therapy": "exposure",
+  "Mindfulness": "mindfulness",
+  "Mindfulness-based interventions": "mindfulness",
+  "Mindfulness and relaxation exercises": "mindfulness",
+  "Behavioral activation": "behavioral-activation"
+};
 
 interface AssessmentResultProps {
   assessmentType: AssessmentType;
@@ -29,6 +51,16 @@ const AssessmentResult: React.FC<AssessmentResultProps> = ({
   const assessment = assessments[assessmentType];
   const interpretation = interpretScore(assessmentType, score);
   const scorePercentage = (score / assessment.maxScore) * 100;
+  
+  // Function to find therapy type based on recommendation text
+  const findTherapyType = (recommendation: string): TherapyType | null => {
+    for (const [key, value] of Object.entries(recommendationToTherapyMap)) {
+      if (recommendation.includes(key)) {
+        return value;
+      }
+    }
+    return null;
+  };
   
   return (
     <div className="animate-fade-in">
@@ -66,14 +98,41 @@ const AssessmentResult: React.FC<AssessmentResultProps> = ({
           </div>
           
           <div className="w-full">
-            <h3 className="text-lg font-medium mb-3">Recommended Interventions</h3>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-medium">Recommended Interventions</h3>
+              <div className="text-sm text-gray-500">Click on a therapy name for detailed guide</div>
+            </div>
             <ul className="space-y-2">
-              {interpretation.recommendations.map((recommendation, index) => (
-                <li key={index} className="flex items-start space-x-2">
-                  <Check size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">{recommendation}</span>
-                </li>
-              ))}
+              {interpretation.recommendations.map((recommendation, index) => {
+                const therapyType = findTherapyType(recommendation);
+                
+                return (
+                  <li key={index} className="flex items-start space-x-2">
+                    <Check size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <span className="text-gray-700">{recommendation}</span>
+                      
+                      {therapyType && (
+                        <div className="mt-1">
+                          <TherapyGuideDialog 
+                            therapyType={therapyType}
+                            triggerElement={
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="h-7 gap-1 text-primary"
+                              >
+                                <BookOpen size={14} />
+                                <span>View detailed therapy guide</span>
+                              </Button>
+                            }
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           
