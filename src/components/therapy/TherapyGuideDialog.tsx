@@ -13,11 +13,15 @@ import { TherapyType } from '@/utils/therapyGuides';
 interface TherapyGuideDialogProps {
   therapyType: TherapyType;
   triggerElement?: React.ReactNode;
+  buttonVariant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
 }
 
 const TherapyGuideDialog: React.FC<TherapyGuideDialogProps> = ({ 
   therapyType,
-  triggerElement
+  triggerElement,
+  buttonVariant = 'outline',
+  size = 'sm'
 }) => {
   const [open, setOpen] = React.useState(false);
 
@@ -25,7 +29,7 @@ const TherapyGuideDialog: React.FC<TherapyGuideDialogProps> = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {triggerElement || (
-          <Button variant="outline" size="sm" className="gap-1">
+          <Button variant={buttonVariant} size={size} className="gap-1">
             <InfoIcon size={16} />
             <span>View Therapy Guide</span>
           </Button>
