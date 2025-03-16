@@ -24,10 +24,10 @@ Follow these steps:
 
 ```sh
 # Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone <https://github.com/Ebenezer Vebu/mindful scale assessor>
 
 # Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+cd <mind-scale-assessor>
 
 # Step 3: Install the necessary dependencies.
 npm i
@@ -59,6 +59,28 @@ This project is built with .
 - React
 - shadcn-ui
 - Tailwind CSS
+# My Android App
+
+## Installation Guide
+
+### Option 1: Install from Google Play Store
+1. Open the Google Play Store.
+2. Search for *[App Name]*.
+3. Tap *Install*.
+
+### Option 2: Install via APK
+1. Download the latest APK from the *[Releases](https://github.com/yourusername/yourrepo/releases)* page.
+2. Open the downloaded file.
+3. If prompted, allow installation from unknown sources.
+4. Tap *Install*.
+
+### Option 3: Install via ADB (Advanced Users)
+1. Enable Developer Options and USB Debugging on your device.
+2. Connect your device to a computer via USB.
+3. Run the following command in a terminal:
+   ```sh
+   adb install app-release.apk
+
 # My Android App
 
 ## Installation Guide
